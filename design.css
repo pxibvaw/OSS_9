@@ -1,0 +1,246 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: sans-serif;
+  background-color: #f6f8f9;
+  overflow: hidden;
+}
+
+header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+  height: 80px;
+}
+
+.logo {
+  position: absolute;
+  left: 2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo::before {
+  content: '🔥';
+}
+
+.controls-wrapper {
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+main {
+  display: flex;
+  height: calc(100% - 80px);
+  width: 100%;
+  align-items: flex-start;
+}
+
+.content-view {
+  display:flex;
+  width: 100%;
+}
+
+/* 지도 표시 영역 */
+.map-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f6f8f9;
+  overflow: hidden;
+  padding-right: 80px;
+}
+
+.map-area img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.side-panel {
+  width: 350px;
+  left: 500px; 
+  min-width: 250px;
+  max-width: 600px;
+  resize: horizontal;
+  overflow: auto;
+  background-color: white;
+  padding: 1.5rem 1rem;
+  border-left: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+
+.panel-section {
+  font-size: 0.95rem;
+}
+
+.panel-section h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.panel-box {
+  width: 100%;
+  height: 120px;
+  background-color: #eef1f2;
+  border-radius: 8px;
+}
+
+.danger-list {
+  padding-left: 1rem;
+}
+
+.danger-list p {
+  line-height: 2rem;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.weather-info {
+  padding-left: 1rem;
+}
+
+.weather-info p {
+  line-height: 2rem;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+select {
+  height: 38px;
+  width: 200px;
+  padding: 0 1.2rem;
+  font-size: 1.0rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: white;
+  text-align: left;
+  text-align-last: left;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='7' viewBox='0 0 10 7' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23333' stroke-width='2' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-position: right 1rem center;
+  background-repeat: no-repeat;
+  background-size: 12px;
+}
+
+input[type="date"] {
+  height: 38px;
+  width: 200px;
+  padding: 0 1rem;
+  font-size: 1.0rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: white;
+}
+
+.area-label {
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.area-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.area-table td {
+  border: 1px solid #6d6d6d;
+  height: 60px;
+  background-color: white;
+}
+
+.select-area-group {
+  margin-bottom: 1.2rem;
+}
+
+button {
+  width: 80px;
+  height: 38px;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 38px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: white;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+button.search-button {
+  width: 50px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+button:hover {
+  background-color: #f0f0f0;
+}
+
+.header-buttons {
+  position: absolute;
+  left: 77%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 1rem;
+}
+
+.header-button {
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 0 1rem;
+  font-size: 0.95rem;
+  line-height: 38px;
+  font-weight: 600;
+  border: 1px solid #ccc;
+  border-radius: 17px;
+  cursor: pointer;
+  white-space: nowrap;
+  width: auto;
+  max-width: none;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.header-button:hover {
+  background-color: #f0f0f0;
+}

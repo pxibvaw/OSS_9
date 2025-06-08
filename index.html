@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FireRiskMap</title>
+  <link rel="stylesheet" href="design.css">
+</head>
+<body>
+  <!--헤더: 로고 + 날짜 & 지역선택-->
+<header>
+  <div class="logo">FireRiskMap</div>
+
+  <div class="header-buttons">
+    <button class="header-button">시군구별 화재 위험지수</button>
+    <button class="header-button">기상정보기반 위험도</button>
+  </div>
+
+  <div class="controls-wrapper">
+    <div class="controls">
+      <!-- 추후 날짜, 셀렉트, 검색 버튼 -->
+    </div>
+  </div>
+</header>
+
+  <!--지도 & 사이드 정보 패널-->
+  <main>
+    <!-- 시군구별 화재 위험 지수 화면 -->
+    <section id="district-risk-view" style="display: flex;">
+      <!--지도-->
+      <section class="map-area">
+        <img src="SeoulColorMap.png" alt="서울 지도" />
+        <!-- 각 구별 위험도 박스 -->
+        <!-- <div class="district-label gangnam"      style="top: 76.2%; left: 69.0%;">0</div>
+        <div class="district-label gangdong"     style="top: 67.4%; left: 78.8%;">0</div>
+        <div class="district-label gangbuk"      style="top: 26.4%; left: 50.8%;">0</div>
+        <div class="district-label gangseo"      style="top: 42.0%; left: 11.7%;">0</div>
+        <div class="district-label geumcheon"    style="top: 85.0%; left: 28.6%;">0</div>
+        <div class="district-label gwanak"       style="top: 83.0%; left: 39.1%;">0</div>
+        <div class="district-label gwangjin"     style="top: 51.7%; left: 70.3%;">0</div>
+        <div class="district-label guro"         style="top: 74.2%; left: 21.5%;">0</div>
+        <div class="district-label dobong"       style="top: 12.7%; left: 52.7%;">0</div>
+        <div class="district-label dongdaemun"   style="top: 41.0%; left: 61.9%;">0</div>
+        <div class="district-label dongjak"      style="top: 70.3%; left: 44.9%;">0</div>
+        <div class="district-label eunpyeong"    style="top: 24.4%; left: 31.9%;">0</div>
+        <div class="district-label jongno"       style="top: 42.0%; left: 50.1%;">0</div>
+        <div class="district-label jung"         style="top: 49.8%; left: 52.1%;">0</div>
+        <div class="district-label jungnang"     style="top: 32.2%; left: 71.4%;">0</div>
+        <div class="district-label mapo"         style="top: 49.8%; left: 30.6%;">0</div>
+        <div class="district-label nowon"        style="top: 9.8%;  left: 63.8%;">0</div>
+        <div class="district-label seodaemun"    style="top: 38.1%; left: 39.7%;">0</div>
+        <div class="district-label seocho"       style="top: 85.0%; left: 46.9%;">0</div>
+        <div class="district-label seongbuk"     style="top: 34.2%; left: 52.1%;">0</div>
+        <div class="district-label seongdong"    style="top: 48.8%; left: 59.2%;">0</div>
+        <div class="district-label songpa"       style="top: 75.2%; left: 74.2%;">0</div>
+        <div class="district-label yangcheon"    style="top: 56.6%; left: 16.9%;">0</div>
+        <div class="district-label yeongdeungpo" style="top: 60.5%; left: 28.0%;">0</div>
+        <div class="district-label yongsan"      style="top: 56.6%; left: 44.3%;">0</div> -->
+      </section>
+
+      <!--사이드패널-->
+      <aside class="side-panel">
+        <div class="panel-section">
+          <h3>• 오늘의 고위험 지역 Top3 </h3>
+          <div class="panel-box"></div>
+        </div>
+
+        <!-- 위치 이동: 지역 선택 박스 -->
+        <div class = "panel-selction">
+          <div class = "select-area-group">
+            <div class="controls-wrapper">
+              <div class="controls">
+                <select>
+                  <option disabled selected>지역을 선택해주세요</option>
+                  <option>강남구</option>
+                  <option>강동구</option>
+                  <option>강북구</option>
+                  <option>강서구</option>
+                  <option>관악구</option>
+                  <option>광진구</option>
+                  <option>구로구</option>
+                  <option>금천구</option>
+                  <option>노원구</option>
+                  <option>도봉구</option>
+                  <option>동대문구</option>
+                  <option>동작구</option>
+                  <option>마포구</option>
+                  <option>서대문구</option>
+                  <option>서초구</option>
+                  <option>성동구</option>
+                  <option>성북구</option>
+                  <option>송파구</option>
+                  <option>양천구</option>
+                  <option>영등포구</option>
+                  <option>용산구</option>
+                  <option>은평구</option>
+                  <option>종로구</option>
+                  <option>중구</option>
+                  <option>중랑구</option>
+                </select>
+                <button class="search-button">검색</button>
+              </div>
+            </div>
+          </div>
+          
+          <p class="area-label">• 위험 지수</p>
+          <!--테이블 박스 -->
+          <table class="area-table">
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- 위험 요소 -->
+        <div class="panel-section">
+          <h3>• 탐지된 위험 요소</h3>
+          <div class="danger-list">
+            <p>🚬 cigarette   : <span id="cigarette-count">0</span></p>
+            <p>⚡ wires  : <span id="wires-count">0</span></p>
+            <p>💨 smoke  : <span id="smoke-count">0</span></p>
+            <p>🗑️ garbage   : <span id="garbage-count">0</span></p>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- 기상정보 기반 위험도 화면 -->
+    <section id="weather-risk-view" style="display: none;">
+      <!--지도-->
+      <div class="map-area">
+        <img src="SeoulColorMap.png" alt="서울 지도" />
+      </div>
+
+      <!--사이드패널-->
+      <aside class="side-panel">
+        <p class="area-label">• 기상 정보 기반 위험도 </p>
+          <!--테이블 박스 -->
+          <table class="area-table">
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- 위치 이동: 지역 선택 박스 -->
+        <div class = "panel-selction">
+          <div class = "select-area-group">
+            <div class="controls-wrapper">
+              <div class="controls">
+                <select>
+                  <option disabled selected>지역을 선택해주세요</option>
+                  <option>강남구</option>
+                  <option>강동구</option>
+                  <option>강북구</option>
+                  <option>강서구</option>
+                  <option>관악구</option>
+                  <option>광진구</option>
+                  <option>구로구</option>
+                  <option>금천구</option>
+                  <option>노원구</option>
+                  <option>도봉구</option>
+                  <option>동대문구</option>
+                  <option>동작구</option>
+                  <option>마포구</option>
+                  <option>서대문구</option>
+                  <option>서초구</option>
+                  <option>성동구</option>
+                  <option>성북구</option>
+                  <option>송파구</option>
+                  <option>양천구</option>
+                  <option>영등포구</option>
+                  <option>용산구</option>
+                  <option>은평구</option>
+                  <option>종로구</option>
+                  <option>중구</option>
+                  <option>중랑구</option>
+                </select>
+                <button class="search-button">검색</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 위험 요소 -->
+        <div class="panel-section">
+          <h3>• 기상정보 </h3>
+          <div class="weather-info" id="weather-info">
+              <p>💨 풍속 : <span id="wind-speed">0 m/s</span></p>
+              <p>🌡️ 온도 : <span id="temperature">0 ℃</span></p>
+              <p>💧 상대습도 : <span id="humidity">0 %</span></p>
+              <p>🧊 실온습도 : <span id="real-feel-humidity">0 %</span></p>
+          </div>
+        </div>
+      </aside>
+    </section>
+    </main>
+</body>
+<script src="script.js"></script>
+</html>

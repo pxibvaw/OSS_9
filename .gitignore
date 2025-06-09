@@ -1,0 +1,9 @@
+*.jpg
+*.png
+*.jpeg
+*.cache
+*.pt
+runs/
+yolo10_env/
+__pycache__/
+yolov10/ 

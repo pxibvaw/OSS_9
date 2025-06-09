@@ -1,9 +1,31 @@
-*.jpg
-*.png
-*.jpeg
-*.cache
-*.pt
-runs/
-yolo10_env/
+# dataset 및 외부 디렉토리 무시
+realheatmap_split/
+yolov10/
+
+# 파이썬 캐시, 로그
 __pycache__/
-yolov10/ 
+*.py[cod]
+*.log
+
+# Jupyter, Colab, ipynb 체크포인트
+*.ipynb_checkpoints
+.ipynb_checkpoints/
+
+# 시스템 및 IDE 관련
+.DS_Store
+Thumbs.db
+.vscode/
+*.swp
+
+# 환경 관련
+.env
+.venv/
+*.egg-info/
+*.bak
+*.tmp
+
+# 가상환경 (로컬)
+yolo10_env/
+
+# runs는 포함 (이건 일부러 무시 안 함)
+# (주의: runs/ 안에 너무 큰 파일이 있다면 별도 업로드 고려)

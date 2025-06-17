@@ -9,16 +9,27 @@ from ultralytics import YOLO
 
 def main():
     # yolov10s.yaml은 현재 작업 디렉토리에 있어야 함    
-    model = YOLO("C:/Users/admin/realheatmap/yolov10/ultralytics/cfg/models/v10/yolov10s.yaml")
+    model = YOLO("C:/Users/admin/realheatmap/yolov10/ultralytics/cfg/models/v10/yolov10m.yaml")
 
 
     model.train(
-        data="c:/Users/admin/realheatmap/data.yaml",  # 로컬 경로로 변경
-        epochs=50,
-        imgsz=640,
-        batch=16,
-        device=0,  # GPU 사용
-        name="train_v10",
+        data="c:/Users/admin/realheatmap/data.yaml",
+        epochs=150,
+        imgsz=896, #이미지 해상도 올리기
+        batch=8, #이미지가 커지면 batch를 줄이기
+        device=0,
+        name="train_v10m",
+        optimizer="AdamW",
+        lr0=0.001,
+        cos_lr=True,
+        hsv_h=0.015, hsv_s=0.7, hsv_v=0.4,
+        degrees=0.0, translate=0.1, scale=0.5, shear=0.0,
+        mosaic=1.0,
+        mixup=0.1,
+        save_period=10,
+        patience=30,
+        verbose = True,
+        project = "training_logs"
     )
 
 if __name__ == "__main__":

@@ -40,8 +40,8 @@ def compute_risk_score(data, stats):
     total = danger + weak + prevent
 
     return {
-        'danger_score': round(danger * 100, 2),
-        'weak_score': round(weak * 100, 2),
-        'prevent_score': round(prevent * 100, 2),
-        'total_score': round(total * 100, 2),
+        'danger_score': round(danger * 1000, 2),
+        'weak_score': round(weak * 1000, 2),
+        'prevent_score': round(prevent * 1000, 2),
+        'total_score': round(total * 1000, 2),
     }

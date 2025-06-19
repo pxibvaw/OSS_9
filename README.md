@@ -129,5 +129,5 @@ OSIS 국가통계포털, 소방청 국가화재정보센터,국토안전관리�
 
 실시간 api 기상데이터는 기상청 openapi를 통해 수집.
 
-인공지능 학습에 사용된 roboflow 데이터는 [LICENSE2] file 에 기재해두었으니 참고 바람
+인공지능 학습에 사용된 roboflow 데이터는 [LICENSE2](./LICENSE2) file 에 기재해두었으니 참고 바람
 

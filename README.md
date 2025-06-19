@@ -123,8 +123,11 @@
 This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0).  
 See the [LICENSE](./LICENSE) file for details.
 
-본 프로젝트는 다음 문헌 및 공식 출처를 기반으로 작성되었다.
-OSIS 국가통계포털, 소방청 국가화재정보센터,국토안전관리원,서울열린데이터광장 통계, 교통안전 공단의 교통안전정보관리시스템 등에서 csv 파일을 받아와 고정데이터로 사용했다.
-실시간 api 기상데이터는 기상청 openapi를 통해 수집되었다.
-인공지능 학습에 사용된 roboflow 데이터는 [LICENSE2] file 에 기재해두었으니 참고
+본 프로젝트는 다음 문헌 및 공식 출처를 기반으로 작성.
+
+OSIS 국가통계포털, 소방청 국가화재정보센터,국토안전관리원,서울열린데이터광장 통계, 교통안전 공단의 교통안전정보관리시스템 등에서 csv 파일을 받아와 고정데이터로 사용함.
+
+실시간 api 기상데이터는 기상청 openapi를 통해 수집.
+
+인공지능 학습에 사용된 roboflow 데이터는 [LICENSE2] file 에 기재해두었으니 참고 바람
 

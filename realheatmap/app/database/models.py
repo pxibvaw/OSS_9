@@ -1,12 +1,13 @@
-# models.py
-from sqlalchemy import Column, Integer, Float, String, DateTime
-from realheatmap.app.database import Base
+from sqlalchemy import Column, Integer, Float, String, DateTime, Date
+from realheatmap.app.database.database import Base 
 from datetime import datetime
 
 class WeatherRaw(Base):
     __tablename__ = "weather_raw"
     id = Column(Integer, primary_key=True, index=True)
     region = Column(String, index=True)               # 자치구 이름
+    district_id = Column(Integer, index=True)         # ✅ 자치구 ID
+    date = Column(Date, index=True)                   # ✅ 측정 날짜 (YYYY-MM-DD)
     temperature = Column(Float, nullable=True)        # 기온
     humidity = Column(Float, nullable=True)           # 습도
     wind = Column(Float, nullable=True)               # 풍속
@@ -14,13 +15,16 @@ class WeatherRaw(Base):
 
 class WeatherCalculated(Base):
     __tablename__ = "weather_calculated"
+
     id = Column(Integer, primary_key=True, index=True)
-    region = Column(String, index=True)
-    temperature = Column(Float, nullable=True)
-    humidity = Column(Float, nullable=True)
-    wind = Column(Float, nullable=True)
-    effective_humidity = Column(Float, nullable=True)        # 실효습도
-    timestamp = Column(DateTime, default=datetime.utcnow)
+    region = Column(String, index=True)                 # 자치구 이름
+    district_id = Column(Integer, index=True, nullable=True)  # 사용 안 하므로 nullable 처리
+    date = Column(Date, index=True)                     # 기준 날짜 (실효습도 계산 기준)
+    temperature = Column(Float, nullable=True)          # 해당 날짜의 기온
+    humidity = Column(Float, nullable=True)             # 해당 날짜의 습도
+    wind = Column(Float, nullable=True)                 # 해당 날짜의 풍속
+    effective_humidity = Column(Float, nullable=True)   # 실효습도
+    timestamp = Column(DateTime, default=datetime.utcnow)  # 저장 시점 또는 원본 시간
 
 class FireRiskScore(Base):
     __tablename__ = "fire_risk_score"

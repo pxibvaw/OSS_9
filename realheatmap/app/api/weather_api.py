@@ -2,7 +2,7 @@
 import requests
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
-from realheatmap.app.models import WeatherRaw
+from realheatmap.app.database.models import WeatherRaw
 from realheatmap.app.database import SessionLocal
 
 print("✅ weather_api.py 실행 시작")

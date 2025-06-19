@@ -14,22 +14,22 @@ def main():
 
     model.train(
         data="c:/Users/admin/realheatmap/data.yaml",
-        epochs=150,
-        imgsz=896, #이미지 해상도 올리기
-        batch=8, #이미지가 커지면 batch를 줄이기
+        epochs=200,
+        imgsz=640, #이미지 해상도 올리기
+        batch=16, #이미지가 커지면 batch를 줄이기
         device=0,
-        name="train_v10m",
+        name="betrain_v10m",
         optimizer="AdamW",
         lr0=0.001,
         cos_lr=True,
-        hsv_h=0.015, hsv_s=0.7, hsv_v=0.4,
-        degrees=0.0, translate=0.1, scale=0.5, shear=0.0,
-        mosaic=1.0,
+        hsv_h=0.015, hsv_s=0.3, hsv_v=0.3,
+        degrees=10.0, translate=0.05, scale=0.2, shear=0.0,
+        mosaic=0.2,
         mixup=0.1,
         save_period=10,
         patience=30,
         verbose = True,
-        project = "training_logs"
+        project = "training_logs",
     )
 
 if __name__ == "__main__":

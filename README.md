@@ -120,10 +120,11 @@
 
 
 ## 라이선스
-본 프로젝트는 다음 문헌 및 공식 출처를 기반으로 작성되었습니다.
+This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0).  
+See the [LICENSE](./LICENSE) file for details.
 
-「화재분야 지역안전지수 등급산정방법 개선방향」, 충남연구원, 2019.11.30.
-OECD (2008). Handbook on Constructing Composite Indicators
-국립산림과학원 산불위험지수 산정 공식
-서울 열린데이터 광장, 국가통계포털(KOSIS), 건축물 생애이력시스템(BLCM), 기상청 오픈API
-Deloitte & BCG: AI 기반 예측 시스템 관련 보고서 (예측 기반 시스템 적용 시 사고 감소율 25%)
+본 프로젝트는 다음 문헌 및 공식 출처를 기반으로 작성되었다.
+OSIS 국가통계포털, 소방청 국가화재정보센터,국토안전관리원,서울열린데이터광장 통계, 교통안전 공단의 교통안전정보관리시스템 등에서 csv 파일을 받아와 고정데이터로 사용했다.
+실시간 api 기상데이터는 기상청 openapi를 통해 수집되었다.
+인공지능 학습에 사용된 roboflow 데이터는 [LICENSE2] file 에 기재해두었으니 참고
+

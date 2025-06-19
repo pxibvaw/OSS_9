@@ -40,3 +40,14 @@ class BaseIndicator(Base):
     region = Column(String, index=True)
     indicator_name = Column(String)     # 예: '재정자주도', '노후건축물 비율' 등
     indicator_value = Column(Float)
+    
+class ObjectDetection(Base):
+    __tablename__ = "object_detection"
+
+    id = Column(Integer, primary_key=True, index=True)
+    region = Column(String, index=True)         # 자치구 이름
+    cigarettes = Column(Integer, default=0)     # class 0
+    garbage = Column(Integer, default=0)        # class 1
+    smoke = Column(Integer, default=0)          # class 2
+    wires = Column(Integer, default=0)          # class 3
+    timestamp = Column(DateTime, default=datetime.utcnow)  # 수집 시각

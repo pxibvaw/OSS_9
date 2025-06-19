@@ -1,25 +1,33 @@
-# riskCalc.py
-
 import pandas as pd
+from sqlalchemy.orm import Session
+from realheatmap.app.database.models import BaseIndicator
 
-# min-max 정규화가 이상치에 민감할 수 있기 때문에 zscore형식으로 변환
-def zscore(value, mean, std):
-    if std == 0:
+# 한글 지표명을 영어 키로 변환하는 매핑
+INDICATOR_KEY_MAPPING = {
+    '사망자수': 'fire_deaths',
+    '만명당화재발생건수': 'fire_cases',
+    '재난약자수': 'vulnerable_people',
+    '식품위생업등종사자수': 'pub_workers',
+    '창고및운송관련서비스업체수': 'warehouse_workers',
+    '인구 1만 명 당 노후 건축물 수': 'old_buildings_ratio',
+    '병상수': 'hospital_beds',
+    '재정자주도': 'financial_index',
+    '도시지역면적': 'urban_area'
+}
+
+# Min-Max 정규화 함수
+def minmax(value, min_val, max_val):
+    if max_val == min_val:
         return 0.0
-    return (value - mean) / std
+    return (value - min_val) / (max_val - min_val)
 
+# 위험도 점수 계산 함수
 def compute_risk_score(data: dict, stats: dict) -> dict:
-
-    # 개별 자치구 위험 점수 계산 함수
-    # Parameters:
-    # - data: 해당 자치구의 원본 지표 값들 (dict)
-    # - stats: 전체 지표에 대한 평균/표준편차 (dict)
-
-    # Returns:
-    # - dict: danger_score, weak_score, prevent_score, total_score
-
     def w(d, key, weight):
-        return zscore(d[key], stats[key]['mean'], stats[key]['std']) * weight
+        if key not in d or key not in stats:
+            print(f"[⚠️ 누락된 지표] '{key}'가 data 또는 stats에 없습니다.")
+            return 0.0
+        return minmax(d[key], stats[key]['min'], stats[key]['max']) * weight
 
     # 1. 위해지표 (45%)
     danger = (
@@ -45,9 +53,54 @@ def compute_risk_score(data: dict, stats: dict) -> dict:
 
     total = danger + weak + prevent
 
-    return {
-        'danger_score': round(danger * 100, 2),
-        'weak_score': round(weak * 100, 2),
-        'prevent_score': round(prevent * 100, 2),
-        'total_score': round(total * 100, 2),
+    result = {
+        'danger_score': round(danger * 1000, 2),
+        'weak_score': round(weak * 1000, 2),
+        'prevent_score': round(prevent * 1000, 2),
+        'total_score': round(total * 1000, 2),
     }
+
+    print(f"🎯 [RESULT] 위험도 계산 결과: {result}")
+
+    return result
+
+# DB에서 전체 지표 min/max 계산
+def get_indicator_stats(db: Session) -> dict:
+    rows = db.query(BaseIndicator).all()
+    df = pd.DataFrame([{
+        "region": row.region,
+        "name": INDICATOR_KEY_MAPPING.get(row.indicator_name.strip(), row.indicator_name.strip()),
+        "value": row.indicator_value
+    } for row in rows])
+
+    pivot = df.pivot(index="region", columns="name", values="value")
+    stats = {}
+    for col in pivot.columns:
+        stats[col] = {
+            "min": pivot[col].min(),
+            "max": pivot[col].max()
+        }
+
+    return stats
+
+# 자치구별 지표값 반환 (영문 키 기준)
+def get_region_data(db: Session, region: str) -> dict:
+    rows = db.query(BaseIndicator).filter(BaseIndicator.region == region).all()
+    return {
+        INDICATOR_KEY_MAPPING.get(row.indicator_name.strip(), row.indicator_name.strip()): row.indicator_value
+        for row in rows
+    }
+
+# API에서 사용하는 최종 함수
+def get_risk_scores_by_region(db: Session, region: str) -> dict:
+    stats = get_indicator_stats(db)
+    data = get_region_data(db, region)
+
+    print("📊 [DEBUG] 전체 stats keys:", list(stats.keys()))
+    print("📊 [DEBUG] 지역 데이터 keys:", list(data.keys()))
+
+    filtered_data = {k: v for k, v in data.items() if k in stats}
+
+    print("📌 [DEBUG] 필터링 후 사용된 keys:", list(filtered_data.keys()))
+
+    return compute_risk_score(filtered_data, stats)

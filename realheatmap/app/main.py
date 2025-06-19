@@ -15,6 +15,7 @@ from realheatmap.app.database.models import WeatherRaw, WeatherCalculated, FireR
 from realheatmap.app.api.weather_api import get_weather_and_save
 from realheatmap.app.services.humidity_calc import calculate_effective_humidity
 from realheatmap.app.services.weather_calc import calculate_fire_risk_score
+from realheatmap.app.services.risk_calc import get_risk_scores_by_region  # ✅ 추가
 
 print("✅ import 성공")
 
@@ -159,6 +160,28 @@ def get_fire_risk_score(
             "region": region,
             "date": date,
             "fire_risk_score": score
+        }
+    finally:
+        db.close()
+
+
+# ✅ 기초 지표 기반 위험 점수 API
+@app.get("/base-risk")
+def base_risk(region: str = Query(..., description="자치구 이름")):
+    db: Session = SessionLocal()
+    try:
+        scores = get_risk_scores_by_region(db, region)
+        if not scores:
+            return JSONResponse(
+                status_code=404,
+                content={"message": f"{region}에 대한 기초 위험 지표 데이터가 부족합니다."}
+            )
+        return {
+            "region": region,
+            "danger_score": scores['danger_score'],
+            "weak_score": scores['weak_score'],
+            "prevent_score": scores['prevent_score'],
+            "total_score": scores['total_score']
         }
     finally:
         db.close()

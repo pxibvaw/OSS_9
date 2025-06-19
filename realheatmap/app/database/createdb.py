@@ -1,5 +1,7 @@
-from realheatmap.app.database import engine
-from realheatmap.app.models import Base
+# realheatmap/app/database/createdb.py
+
+from realheatmap.app.database.database import engine, Base
+from realheatmap.app.database import models  # 테이블 클래스들 import
 
 print("🛠️ SQLite DB에 테이블 생성 중...")
 Base.metadata.create_all(bind=engine)

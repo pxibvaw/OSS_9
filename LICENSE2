@@ -1,0 +1,93 @@
+# Dataset Citations
+
+This project uses the following open datasets. We acknowledge their authors and sources as below.
+
+---
+smoke class
+https://universe.roboflow.com/roboflow-100/smoke-uvylj
+
+@misc{
+smoke-uvylj_dataset,
+title = { smoke Dataset },
+type = { Open Source Dataset },
+author = { Roboflow 100 },
+howpublished = { \url{ https://universe.roboflow.com/roboflow-100/smoke-uvylj } },
+url = { https://universe.roboflow.com/roboflow-100/smoke-uvylj },
+journal = { Roboflow Universe },
+publisher = { Roboflow },
+year = { 2023 },
+month = { may },
+note = { visited on 2025-06-20 },
+}
+
+---
+
+wires class
+https://universe.roboflow.com/qbpcluoi110gd1/ddan_ct_tua
+
+@misc{
+ddan_ct_tua_dataset,
+title = { ddan_ct_tua Dataset },
+type = { Open Source Dataset },
+author = { QBPCLuoi110GD1 },
+howpublished = { \url{ https://universe.roboflow.com/qbpcluoi110gd1/ddan_ct_tua } },
+url = { https://universe.roboflow.com/qbpcluoi110gd1/ddan_ct_tua },
+journal = { Roboflow Universe },
+publisher = { Roboflow },
+year = { 2022 },
+month = { dec },
+note = { visited on 2025-06-20 },
+}
+
+https://universe.roboflow.com/personal-4rzsz/wires-quxig
+@misc{
+wires-quxig_dataset,
+title = { WIRES Dataset },
+type = { Open Source Dataset },
+author = { Personal },
+howpublished = { \url{ https://universe.roboflow.com/personal-4rzsz/wires-quxig } },
+url = { https://universe.roboflow.com/personal-4rzsz/wires-quxig },
+journal = { Roboflow Universe },
+publisher = { Roboflow },
+year = { 2022 },
+month = { aug },
+note = { visited on 2025-06-20 },
+}
+
+---
+
+garbage class
+https://universe.roboflow.com/cl-nkzza/trash-detection-tvmud
+
+@misc{
+trash-detection-tvmud_dataset,
+title = { trash detection Dataset },
+type = { Open Source Dataset },
+author = { cl },
+howpublished = { \url{ https://universe.roboflow.com/cl-nkzza/trash-detection-tvmud } },
+url = { https://universe.roboflow.com/cl-nkzza/trash-detection-tvmud },
+journal = { Roboflow Universe },
+publisher = { Roboflow },
+year = { 2024 },
+month = { oct },
+note = { visited on 2025-06-20 },
+}
+
+---
+
+cigaratte class
+https://universe.roboflow.com/vision-artificial/cigarettes-model
+
+@misc{
+cigarettes-model_dataset,
+title = { Cigarettes model Dataset },
+type = { Open Source Dataset },
+author = { Vision Artificial },
+howpublished = { \url{ https://universe.roboflow.com/vision-artificial/cigarettes-model } },
+url = { https://universe.roboflow.com/vision-artificial/cigarettes-model },
+journal = { Roboflow Universe },
+publisher = { Roboflow },
+year = { 2023 },
+month = { apr },
+note = { visited on 2025-06-20 },
+}

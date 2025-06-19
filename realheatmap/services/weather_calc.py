@@ -67,15 +67,16 @@ def calculate_fire_risk_score(db: Session, district_id: int, target_date: date) 
 
         if 1 <= month <= 6:
             # 봄철 모델 (1~6월)
-            risk_score = 1 / (1 + math.exp(-(2.706 + 0.088 * weather["Tmean"]
-                                                   - 0.055 * weather["Rh"]
-                                                   - 0.023 * weather["Eh"]
-                                                   - 0.014 * weather["Wmean"]))) - 1
+            risk_score = 1 / (1 + math.exp((2.706
+                                + 0.088 * weather["Tmean"]
+                                - 0.055 * weather["Rh"]
+                                - 0.023 * weather["Eh"]
+                                - (0.014 * weather["Wmean"])) ** -1))
         else:
             # 가을/겨울 모델 (7~12월)
-            risk_score = 1 / (1 + math.exp(-(1.099 + 0.117 * weather["Tmean"]
+            risk_score = 1 / (1 + math.exp((1.099 + 0.117 * weather["Tmean"]
                                                    - 0.069 * weather["Rh"]
-                                                   - 0.182 * weather["Wmean"]))) - 1
+                                                   - 0.182 * weather["Wmean"]) ** -1))
     except OverflowError:
         print(f"[경고] 지수 계산 중 Overflow 발생. 기본 score=0 반환")
         risk_score = 0
@@ -83,7 +84,7 @@ def calculate_fire_risk_score(db: Session, district_id: int, target_date: date) 
     daily_weight = get_daily_weight(target_date)
     adjusted_score = risk_score * daily_weight
 
-    score_percentage = round(adjusted_score * 100, 2)
+    
 
-    print(f"[계산 완료] 위험지수: {score_percentage}% (district_id={district_id}, date={target_date}, 가중치={daily_weight})")
-    return score_percentage
+    print(f"[계산 완료] 위험지수: {adjusted_score}% (district_id={district_id}, date={target_date}, 가중치={daily_weight})")
+    return adjusted_score

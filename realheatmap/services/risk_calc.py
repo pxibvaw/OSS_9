@@ -1,25 +1,22 @@
-# riskCalc.py
-
 import pandas as pd
 
-# min-max 정규화가 이상치에 민감할 수 있기 때문에 zscore형식으로 변환
-def zscore(value, mean, std):
-    if std == 0:
+# Min-Max 정규화
+def minmax(value, min_val, max_val):
+    if max_val == min_val:
         return 0.0
-    return (value - mean) / std
+    return (value - min_val) / (max_val - min_val)
 
 def compute_risk_score(data: dict, stats: dict) -> dict:
 
     # 개별 자치구 위험 점수 계산 함수
     # Parameters:
     # - data: 해당 자치구의 원본 지표 값들 (dict)
-    # - stats: 전체 지표에 대한 평균/표준편차 (dict)
-
+    # - stats: 전체 지표에 대한 min/max 값들 (dict)
     # Returns:
     # - dict: danger_score, weak_score, prevent_score, total_score
 
     def w(d, key, weight):
-        return zscore(d[key], stats[key]['mean'], stats[key]['std']) * weight
+        return minmax(d[key], stats[key]['min'], stats[key]['max']) * weight
 
     # 1. 위해지표 (45%)
     danger = (
@@ -46,8 +43,8 @@ def compute_risk_score(data: dict, stats: dict) -> dict:
     total = danger + weak + prevent
 
     return {
-        'danger_score': round(danger * 100, 2),
-        'weak_score': round(weak * 100, 2),
-        'prevent_score': round(prevent * 100, 2),
-        'total_score': round(total * 100, 2),
+        'danger_score': round(danger * 1000, 2),
+        'weak_score': round(weak * 1000, 2),
+        'prevent_score': round(prevent * 1000, 2),
+        'total_score': round(total * 1000, 2),
     }

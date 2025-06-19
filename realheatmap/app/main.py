@@ -20,7 +20,6 @@ print("✅ import 성공")
 
 print(f"📦 사용 중인 DB 파일 위치: {os.path.abspath(database.DATABASE_URL.replace('sqlite:///', ''))}")
 
-
 app = FastAPI()
 
 # ✅ 최신 날씨 정보 조회 API
@@ -49,16 +48,6 @@ def get_latest_weather(region: str = Query(..., description="자치구 이름"))
     finally:
         db.close()
 
-
-@app.get("/debug/weather-raw")
-def debug_weather(region: str):
-    db = SessionLocal()
-    try:
-        results = db.query(WeatherRaw).filter(WeatherRaw.region == region).all()
-        return {"count": len(results), "data": [r.timestamp.strftime("%Y-%m-%d") for r in results]}
-    finally:
-        db.close()
-        
 
 # ✅ 자동 저장: 1시간마다 날씨 저장
 @app.on_event("startup")
@@ -115,7 +104,7 @@ def calc_humidity(
         db.close()
 
 
-# ✅ 산불 위험지수 계산 요청 API
+# ✅ 오늘 날짜 기준 위험도 계산 API
 @app.get("/calculate-risk")
 def calc_fire_risk(region: str = Query(..., description="자치구 이름")):
     db: Session = SessionLocal()
@@ -142,4 +131,38 @@ def calc_fire_risk(region: str = Query(..., description="자치구 이름")):
     finally:
         db.close()
 
+
+# ✅ 자치구와 날짜 기반 위험도 계산 API
+@app.get("/fire-risk")
+def get_fire_risk_score(
+    region: str = Query(..., description="자치구 이름"),
+    date: str = Query(..., description="YYYY-MM-DD 형식의 날짜")
+):
+    db: Session = SessionLocal()
+    try:
+        try:
+            target_date = datetime.strptime(date, "%Y-%m-%d").date()
+        except ValueError:
+            return JSONResponse(
+                status_code=400,
+                content={"message": "날짜 형식이 올바르지 않습니다. YYYY-MM-DD 형식이어야 합니다."}
+            )
+
+        score = calculate_fire_risk_score(db, region, target_date)
+        if score is None:
+            return JSONResponse(
+                status_code=404,
+                content={"message": f"{region}의 {date}에 대한 계산된 기상 데이터가 존재하지 않습니다."}
+            )
+
+        return {
+            "region": region,
+            "date": date,
+            "fire_risk_score": score
+        }
+    finally:
+        db.close()
+
+
+# ✅ DB 테이블 생성
 models.Base.metadata.create_all(bind=engine)

@@ -4,7 +4,7 @@ from realheatmap.app.database.models import BaseIndicator
 
 # 한글 지표명을 영어 키로 변환하는 매핑
 INDICATOR_KEY_MAPPING = {
-    '사망자수': 'fire_deaths',
+    '만명당사망자수': 'fire_deaths',
     '만명당화재발생건수': 'fire_cases',
     '재난약자수': 'vulnerable_people',
     '식품위생업등종사자수': 'pub_workers',
@@ -12,7 +12,11 @@ INDICATOR_KEY_MAPPING = {
     '인구 1만 명 당 노후 건축물 수': 'old_buildings_ratio',
     '병상수': 'hospital_beds',
     '재정자주도': 'financial_index',
-    '도시지역면적': 'urban_area'
+    '도시지역면적': 'urban_area',
+    '담배꽁초탐지수': 'cigarette_detect',
+    '쓰레기탐지수': 'garbage_detect',
+    '연기탐지수': 'smoke_detect',
+    '전선탐지수': 'wires_detect'
 }
 
 # Min-Max 정규화 함수
@@ -44,7 +48,10 @@ def compute_risk_score(data: dict, stats: dict) -> dict:
         w(data, 'pub_workers',         0.02 ) +
         w(data, 'warehouse_workers',   0.015) +
         w(data, 'old_buildings_ratio', 0.035) +
-        w(data, 'flammable_cases',     0.17 )
+        w(data, 'cigarette_detect',     0.09 ) +
+        w(data, 'garbage_detect',    0.05 ) +
+        w(data, 'smoke_detect',  0.015 ) +
+        w(data, 'wires_detect',    0.015 )
     )
 
     # 3. 경감지표 (25%)
@@ -76,13 +83,13 @@ def compute_risk_score(data: dict, stats: dict) -> dict:
 # DB에서 전체 지표 min/max 계산
 def get_indicator_stats(db: Session) -> dict:
     rows = db.query(BaseIndicator).all()
-    df = pd.DataFrame([{
-        "region": row.region,
-        "name": INDICATOR_KEY_MAPPING.get(row.indicator_name.strip(), row.indicator_name.strip()),
-        "value": row.indicator_value
-    } for row in rows])
+    df = pd.DataFrame([
+        [row.region, INDICATOR_KEY_MAPPING.get(row.indicator_name.strip(), row.indicator_name.strip()), row.indicator_value]
+        for row in rows
+    ], columns=["region", "indicator_name", "indicator_value"])
 
-    pivot = df.pivot(index="region", columns="name", values="value")
+    pivot = df.pivot(index="region", columns="indicator_name", values="indicator_value")
+
     stats = {}
     for col in pivot.columns:
         stats[col] = {
@@ -91,6 +98,7 @@ def get_indicator_stats(db: Session) -> dict:
         }
 
     return stats
+
 
 # 자치구별 지표값 반환 (영문 키 기준)
 def get_region_data(db: Session, region: str) -> dict:

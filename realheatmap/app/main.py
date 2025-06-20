@@ -16,12 +16,26 @@ from realheatmap.app.api.weather_api import get_weather_and_save
 from realheatmap.app.services.humidity_calc import calculate_effective_humidity
 from realheatmap.app.services.weather_calc import calculate_fire_risk_score
 from realheatmap.app.services.risk_calc import get_risk_scores_by_region  # ✅ 추가
+from fastapi.staticfiles import StaticFiles # 프론트 연결용 import 추가 코드
+from fastapi.responses import FileResponse
+from pathlib import Path # 경로인식
+
+BASE_DIR = Path(__file__).resolve().parent  # = app/
+FRONT_DIR = BASE_DIR / "front"  # app/front 경로 정확하게 잡기
 
 print("✅ import 성공")
 
 print(f"📦 사용 중인 DB 파일 위치: {os.path.abspath(database.DATABASE_URL.replace('sqlite:///', ''))}")
 
 app = FastAPI()
+
+# 정적 파일 제공 (CSS, JS, SVG 등)
+app.mount("/static", StaticFiles(directory=str(FRONT_DIR)), name="static")
+
+# 기본 HTML 페이지 제공
+@app.get("/")
+def serve_front():
+    return FileResponse(str(FRONT_DIR / "index.html"))
 
 # ✅ 최신 날씨 정보 조회 API
 @app.get("/weather-info")

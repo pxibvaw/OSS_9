@@ -1,0 +1,27 @@
+# macOS 시스템 파일
+.DS_Store
+
+# Python 관련
+__pycache__/
+*.pyc
+*.pyo
+
+# 가상환경
+venv/
+.venv/
+
+# 환경 변수 파일
+.env
+
+# 로그
+*.log
+
+# VSCode 설정
+.vscode/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# 이미지 결과물 (원하지 않으면 주석 처리 가능)
+images/
+

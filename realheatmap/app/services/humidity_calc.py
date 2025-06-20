@@ -1,50 +1,61 @@
-from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from datetime import datetime
+from datetime import timedelta, date, datetime
+from typing import Optional
+from realheatmap.app.database.models import WeatherRaw, WeatherCalculated
 
-from realheatmap.app.database.database import get_db
-from realheatmap.app.database.models import WeatherCalculated
-from realheatmap.app.tasks.init_effective_humidity import calculate_effective_humidity
+def calculate_effective_humidity(db: Session, region: str, target_date: date) -> Optional[float]:
+    print(f"✅ 실효습도 계산 시작: {region}, 날짜: {target_date}")
 
-router = APIRouter()
+    r = 0.7
+    humidity_sum = 0
+    latest_weather = None
 
-@router.get("/humidity/{region}")
-def get_effective_humidity(
-    region: str,
-    date: str = Query(..., description="YYYY-MM-DD 형식의 날짜"),
-    db: Session = Depends(get_db)
-):
-    """
-    특정 자치구(region)와 날짜(date)를 받아 해당 날짜의 실효습도를 반환합니다.
-    DB에 없으면 새로 계산 후 저장합니다.
-    """
-    try:
-        target_date = datetime.strptime(date, "%Y-%m-%d").date()
-    except ValueError:
-        raise HTTPException(status_code=400, detail="날짜 형식은 YYYY-MM-DD여야 합니다.")
+    for i in range(5):
+        day = target_date - timedelta(days=i)
+        start_dt = datetime.combine(day, datetime.min.time())  # 00:00:00
+        end_dt = datetime.combine(day, datetime.max.time())    # 23:59:59.999999
 
-    # DB에 이미 있는 경우
+        weather = (
+            db.query(WeatherRaw)
+            .filter(
+                WeatherRaw.region == region,
+                WeatherRaw.timestamp.between(start_dt, end_dt)
+            )
+            .order_by(WeatherRaw.timestamp.desc())
+            .first()
+        )
+
+        if not weather:
+            print(f"  ⚠️  {day} 습도 데이터 없음")
+            return None
+
+        humidity_sum += (r ** i) * weather.humidity
+        if i == 0:
+            latest_weather = weather
+
+    He = (1 - r) * humidity_sum
+
     existing = db.query(WeatherCalculated).filter(
         WeatherCalculated.region == region,
         WeatherCalculated.date == target_date
     ).first()
 
     if existing:
-        return {
-            "region": region,
-            "date": str(target_date),
-            "effective_humidity": existing.effective_humidity,
-            "source": "DB"
-        }
+        existing.effective_humidity = He
+        print(f"  🔁 기존 데이터 업데이트됨: He={He:.2f}")
+    else:
+        new_row = WeatherCalculated(
+            region=region,
+            district_id=None,
+            date=target_date,
+            temperature=latest_weather.temperature,
+            humidity=latest_weather.humidity,
+            wind=latest_weather.wind,
+            effective_humidity=He,
+            timestamp=latest_weather.timestamp
+        )
+        db.add(new_row)
+        print(f"  ✅ 새 데이터 추가됨: He={He:.2f}")
 
-    # 없으면 계산 후 저장
-    He = calculate_effective_humidity(db, region, target_date)
-    if He is None:
-        raise HTTPException(status_code=404, detail="습도 데이터가 부족해 실효습도 계산이 불가능합니다.")
-
-    return {
-        "region": region,
-        "date": str(target_date),
-        "effective_humidity": He,
-        "source": "calculated"
-    }
+    db.commit()
+    return He

@@ -1,6 +1,5 @@
 from datetime import datetime
 from sqlalchemy.orm import Session
-from sqlalchemy import func
 from realheatmap.app.database.connection import SessionLocal
 from realheatmap.app.database.models import ObjectDetection, BaseIndicator
 
@@ -14,17 +13,11 @@ REGION_POPULATION = {
 }
 
 def get_detection_totals(db: Session):
-    """ObjectDetection 테이블에서 자치구별 누적 탐지 합계 조회"""
-    return db.query(
-        ObjectDetection.region,
-        func.sum(ObjectDetection.cigarettes).label("cigarettes"),
-        func.sum(ObjectDetection.garbage).label("garbage"),
-        func.sum(ObjectDetection.smoke).label("smoke"),
-        func.sum(ObjectDetection.wires).label("wires")
-    ).group_by(ObjectDetection.region).all()
+    """ObjectDetection 테이블의 최신 누적 데이터를 반환"""
+    return db.query(ObjectDetection).all()
 
 def migrate_to_base_indicator(db: Session, rows):
-    """탐지 누적합을 위험지표(BaseIndicator)로 이관"""
+    """기존 지표 삭제 후 새로운 탐지 기반 지표 저장"""
     for row in rows:
         pop = REGION_POPULATION.get(row.region)
         if not pop:
@@ -39,6 +32,11 @@ def migrate_to_base_indicator(db: Session, rows):
             '전선탐지수':     row.wires * scale,
         }
 
+        # ⚠️ 중복 제거: 동일 지역+지표명 기존 기록 삭제
+        for name in indicators.keys():
+            db.query(BaseIndicator).filter_by(region=row.region, indicator_name=name).delete()
+
+        # ✅ 새 데이터 추가
         for name, value in indicators.items():
             db.add(BaseIndicator(
                 region=row.region,
@@ -47,7 +45,7 @@ def migrate_to_base_indicator(db: Session, rows):
             ))
 
     db.commit()
-    print(f" [{datetime.now().strftime('%H:%M')}] 위험지표 이관 완료")
+    print(f"[{datetime.now().strftime('%H:%M')}] 위험지표 이관 완료 (중복 제거 포함)")
 
 if __name__ == "__main__":
     db = SessionLocal()

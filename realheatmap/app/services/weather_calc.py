@@ -54,13 +54,13 @@ def calculate_fire_risk_score(db: Session, region: str, target_date: date) -> Op
         month = target_date.month
 
         if 1 <= month <= 6:
-            risk_score = 1 / (1 + math.exp((2.706
+            risk_score = 1 / (1 + math.exp(-(2.706
                                 + 0.088 * weather["Tmean"]
                                 - 0.055 * weather["Rh"]
                                 - 0.023 * weather["Eh"]
                                 - 0.014 * (weather["Wmean"])) ** -1))
         else:
-            risk_score = 1 / (1 + math.exp((1.099
+            risk_score = 1 / (1 + math.exp(-(1.099
                                 + 0.117 * weather["Tmean"]
                                 - 0.069 * weather["Rh"]
                                 - 0.182 * (weather["Wmean"])) ** -1))

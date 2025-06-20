@@ -9,7 +9,7 @@ INDICATOR_KEY_MAPPING = {
     '재난약자수': 'vulnerable_people',
     '식품위생업등종사자수': 'pub_workers',
     '창고및운송관련서비스업체수': 'warehouse_workers',
-    '인구 1만 명 당 노후 건축물 수': 'old_buildings_ratio',
+    '인구 1만 명당 노후 건축물 수': 'old_buildings_ratio',
     '병상수': 'hospital_beds',
     '재정자주도': 'financial_index',
     '도시지역면적': 'urban_area',
@@ -66,15 +66,15 @@ def compute_risk_score(data: dict, stats: dict) -> dict:
     total = danger + weak + prevent
 
     result = {
-        'danger_score': round(danger * 1000, 2),
-        'weak_score': round(weak * 1000, 2),
-        'prevent_score': round(prevent * 1000, 2),
-        'total_score': round(total * 1000, 2),
+        'danger_score': round(danger * 100, 2),
+        'weak_score': round(weak * 100, 2),
+        'prevent_score': round(prevent * 100, 2),
+        'total_score': round(total * 100, 2),
     }
     
-    print(f"🔥 Danger Score: {round(danger * 1000, 2)}")
-    print(f"🧓 Weak Score: {round(weak * 1000, 2)}")
-    print(f"🛡️ Prevent Score: {round(prevent * 1000, 2)}")
+    print(f"🔥 Danger Score: {round(danger * 100, 2)}")
+    print(f"🧓 Weak Score: {round(weak * 100, 2)}")
+    print(f"🛡️ Prevent Score: {round(prevent * 100, 2)}")
     
     print(f"🎯 [RESULT] 총합 위험도 점수: {result}")
 
@@ -133,3 +133,13 @@ def get_risk_scores_by_region(db: Session, region: str) -> dict:
           f"Total={result['total_score']}")
 
     return result
+
+if __name__ == "__main__":
+    from realheatmap.app.database.connection import SessionLocal
+
+    db = SessionLocal()
+    try:
+        # 🔍 여기에서 계산하고 싶은 자치구 이름을 넣으세요 (예: "강남구", "성북구" 등)
+        get_risk_scores_by_region(db, "마포구")
+    finally:
+        db.close()

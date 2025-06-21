@@ -11,3 +11,5 @@ rm .DS_Store
 rm realheatmap/.DS_Store
 rm realheatmap/app/.DS_Store
 echo ".DS_Store" >> .gitignore
+venv/
+images/

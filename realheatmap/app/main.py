@@ -3,6 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pathlib import Path
 from pydantic import BaseModel
+from realheatmap.app.services.weather_fetcher import fetch_and_save_all_weather
 
 class RegionRequest(BaseModel):
     region: str
@@ -23,6 +24,11 @@ FRONT_DIR = BASE_DIR / "front"
 
 # FastAPI 앱 생성
 app = FastAPI()
+
+#날씨 정보 저장
+@app.on_event("startup")
+def startup_event():
+    fetch_and_save_all_weather()
 
 # API 라우터 등록
 app.include_router(weather_router)

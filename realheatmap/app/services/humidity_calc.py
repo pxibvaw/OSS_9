@@ -34,6 +34,7 @@ def calculate_effective_humidity(db: Session, region: str, target_date: date) ->
             latest_weather = weather
 
     He = (1 - r) * humidity_sum
+    print(f"🔍 저장 직전 He 값: {He}") 
 
     existing = db.query(WeatherCalculated).filter(
         WeatherCalculated.region == region,
@@ -51,9 +52,10 @@ def calculate_effective_humidity(db: Session, region: str, target_date: date) ->
             temperature=latest_weather.temperature,
             humidity=latest_weather.humidity,
             wind=latest_weather.wind,
-            effective_humidity=He,
+            effective_humidity=round(He, 2),
             timestamp=latest_weather.timestamp
         )
+        
         db.add(new_row)
         print(f"  ✅ 새 데이터 추가됨: He={He:.2f}")
 

@@ -33,6 +33,7 @@ def get_effective_humidity(
         }
 
     He = calculate_effective_humidity(db, region, target_date)
+    print(f"🔍 저장 직전 He 값: {He}") 
     if He is None:
         print(f"❌ [계산 실패] {region} {target_date} - 습도 데이터 부족")
         raise HTTPException(status_code=404, detail="습도 데이터가 부족해 실효습도 계산이 불가능합니다.")

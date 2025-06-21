@@ -1,4 +1,4 @@
-#weather_api.py
+#weather_fetcher.py
 import requests
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
@@ -37,6 +37,7 @@ def get_weather_and_save(district_name: str):
 
     nx, ny = district_coords[district_name]
     base_date, base_time = get_base_datetime()
+    print(f"⏱️ 요청 시각: {base_date} {base_time}")
 
     params = {
         'serviceKey': API_KEY,
@@ -81,3 +82,15 @@ def get_weather_and_save(district_name: str):
 
     except Exception as e:
         return {"error": str(e)}
+
+def fetch_and_save_all_weather():
+    print("📦 [STARTUP] 전체 자치구 날씨 저장 시작")
+    districts = list(district_coords.keys())
+    for district in districts:
+        result = get_weather_and_save(district)
+        print(f"🌦️ {district} 저장 결과:", result)
+
+# 테스트용 마지막에 주석처리 필요
+# if __name__ == "__main__":
+#     result = get_weather_and_save("종로구")
+#     print("저장 결과:", result)

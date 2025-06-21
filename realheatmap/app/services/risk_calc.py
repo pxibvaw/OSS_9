@@ -1,6 +1,6 @@
 import pandas as pd
 from sqlalchemy.orm import Session
-from realheatmap.app.database.models import BaseIndicator
+from realheatmap.app.database.models import BaseIndicator, ObjectDetection
 
 # 한글 지표명을 영어 키로 변환하는 매핑
 INDICATOR_KEY_MAPPING = {
@@ -72,10 +72,9 @@ def compute_risk_score(data: dict, stats: dict) -> dict:
         'total_score': round(total * 100, 2),
     }
     
-    print(f"🔥 Danger Score: {round(danger * 100, 2)}")
-    print(f"🧓 Weak Score: {round(weak * 100, 2)}")
-    print(f"🛡️ Prevent Score: {round(prevent * 100, 2)}")
-    
+    print(f"🔥 Danger Score: {result['danger_score']}")
+    print(f"🧓 Weak Score: {result['weak_score']}")
+    print(f"🛡️ Prevent Score: {result['prevent_score']}")
     print(f"🎯 [RESULT] 총합 위험도 점수: {result}")
 
     return result
@@ -126,13 +125,33 @@ def get_risk_scores_by_region(db: Session, region: str) -> dict:
 
     result = compute_risk_score(filtered_data, stats)
 
-    print("✅ [계산 완료] → "
-          f"Danger={result['danger_score']}, "
-          f"Weak={result['weak_score']}, "
-          f"Prevent={result['prevent_score']}, "
-          f"Total={result['total_score']}")
+    result = compute_risk_score(filtered_data, stats)
 
-    return result
+    # 👉 최신 ObjectDetection 데이터 추가
+    detection = (
+        db.query(ObjectDetection)
+        .filter(ObjectDetection.region == region)
+        .order_by(ObjectDetection.timestamp.desc())
+        .first()
+    )
+
+    result["danger_elements"] = {
+        "cigarette": detection.cigarettes if detection else 0,
+        "wires": detection.wires if detection else 0,
+        "smoke": detection.smoke if detection else 0,
+        "garbage": detection.garbage if detection else 0,
+    }
+
+    print("🧾 [DEBUG] 탐지 객체 수:", result["danger_elements"])
+
+    return {
+        "region": region,
+        "danger_score": result['danger_score'],
+        "weak_score": result['weak_score'],
+        "prevent_score": result['prevent_score'],
+        "total_score": result['total_score'],
+        "danger_elements": result["danger_elements"]  # ✅ 꼭 포함되어야 함
+    }
 
 if __name__ == "__main__":
     from realheatmap.app.database.connection import SessionLocal

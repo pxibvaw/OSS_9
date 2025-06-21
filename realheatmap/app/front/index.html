@@ -210,7 +210,7 @@
 
       <!--사이드패널-->
         <aside class="side-panel">
-            <h2 id="selected-district-name">자치구 선택</h2>
+          <h2 id="selected-district-name">자치구 선택</h2>
             <!-- 🔻 위험 정보 전체 박스 -->
             <div class="panel-container">
               <!-- 🔥 위험 지수 -->
@@ -223,10 +223,10 @@
               <div class="formula-card">
                 <h3>🧯 탐지된 위험 요소</h3>
                 <div class="info">
-                  <div>🚬 cigarette : <strong id="cigarette-count">0</strong></div>
-                  <div>⚡ wires : <strong id="wires-count">0</strong></div>
-                  <div>💨 smoke : <strong id="smoke-count">0</strong></div>
-                  <div>🗑️ garbage : <strong id="garbage-count">0</strong></div>
+                  <div>🚬 cigarette : <strong id="cigarette">0</strong></div>
+                  <div>⚡ wires : <strong id="wires">0</strong></div>
+                  <div>💨 smoke : <strong id="smoke">0</strong></div>
+                  <div>🗑️ garbage : <strong id="garbage">0</strong></div>
                 </div>
               </div>
 
@@ -454,19 +454,22 @@
       <!--사이드패널-->
       <aside class="side-panel">
         <h2 id="selected-district-name">자치구 선택</h2>
-              <!-- 기상정보 -->        
+        <!-- 기상정보 -->        
         <div id="weather-risk-panel" class="panel-container">
           <div class="score-box">
             <span>🔥 기상정보기반위험도</span>
-            <h1 id="weather-risk-score">--등급</h1>
+            <h1 id="dwi-score"> --등급</h1>
           </div>
 
-          <div class="info">
-            <div><span>🔥 기온</span> <strong id="Tmean">-- ℃</strong></div>
-            <div><span>💧 상대습도</span> <strong id="Rh">-- %</strong></div>
-            <div><span>☁️ 실효습도</span> <strong id="Eh">-- %</strong></div>
-            <div><span>🌬️ 풍속</span> <strong id="Wmean">-- m/s</strong></div>
-            <div><span>📅 날짜 가중치</span> <strong id="daily-weight">--</strong></div>
+          <div class="formula-card">
+            <h3>🌡️ 기상 정보</h3>
+            <div class="info">
+              <div><span>🔥 기온</span> <strong id="Tmean">-- ℃</strong></div>
+              <div><span>💧 상대습도</span> <strong id="Rh">-- %</strong></div>
+              <div><span>☁️ 실효습도</span> <strong id="Eh">-- %</strong></div>
+              <div><span>🌬️ 풍속</span> <strong id="Wmean">-- m/s</strong></div>
+              <div><span>📅 날짜 가중치</span> <strong id="daily-weight">--</strong></div>
+            </div>
           </div>
 
       <div class="formula-card">

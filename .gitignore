@@ -1,0 +1,13 @@
+venv/
+checkenv/
+__pycache__/
+*.pyc
+fire_risk.db
+.env
+.DS_Store
+realheatmap/checkenv/
+realheatmap/checkenv/
+rm .DS_Store
+rm realheatmap/.DS_Store
+rm realheatmap/app/.DS_Store
+echo ".DS_Store" >> .gitignore

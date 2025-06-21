@@ -97,10 +97,10 @@ main {
 }
 
 .map-area {
-  flex: 1;  /* 기존 width: 100%; 대신 사용 */
+  flex: 1;
   display: flex;
   justify-content: center;
-  margin-left: -200px;
+  margin-left: -200px; /* 지도 살짝 왼쪽으로 */
   align-items: center;
   padding: 20px 0;
 }
@@ -124,18 +124,15 @@ main {
 
 
 #district-risk-view,
-#weather-risk-view {
+#weather-risk-view{
   display: flex;
   width: 100%;
   justify-content: space-between;  /* 양 끝으로 밀착 */
   align-items: stretch;
 }
 
-
 .side-panel {
-  width: 410px;
-  min-width: 250px;
-  max-width: 600px;
+  width: 500px;
   resize: horizontal;
   overflow: auto;
   background-color: white;
@@ -199,15 +196,20 @@ main {
   color: #111;
 }
 
-
 .panel-container {
-  max-width: 500px;
+  max-width: 450px;
   margin: 0 auto;
   padding: 20px;
   border-radius: 12px;
   background-color: #f9f9f9;
   box-shadow: 0 0 8px rgba(0,0,0,0.1);
   font-family: sans-serif;
+}
+
+.side-panel .panel-container{
+  width: 100%;      /* 사이드패널 폭과 동일하게 */
+  max-width: none;  /* 500px 상한 제거 */
+  margin: auto;        /* 가운데 여백 제거 */
 }
 
 .score-box {
@@ -235,18 +237,26 @@ main {
   padding: 10px;
   border-radius: 8px;
   box-shadow: inset 0 0 3px rgba(0,0,0,0.05);
-  font-size: 1rem;
+  font-size: 1.0rem;
   display:flex;
   justify-content: space-between;
+  align-items:center;      /* 세로 중앙 정렬 */
+  white-space:nowrap;      /* 줄바꿈 방지 */
+}
+
+.info strong{
+  min-width:72px;          /* 숫자 자리 고정(필요시 조절) */
+  text-align:right;
 }
 
 .formula-card {
   background-color: #eef4ff;
   border-radius: 14px;
-  padding: 20px;
+  padding: 20px 10px;
   margin-top: 20px;
   box-shadow: 0 0 6px rgba(0,0,0,0.05);
 }
+
 
 .formula-card h3 {
   font-size: 20px;

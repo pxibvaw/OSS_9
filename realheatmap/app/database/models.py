@@ -6,8 +6,8 @@ class WeatherRaw(Base):
     __tablename__ = "weather_raw"
     id = Column(Integer, primary_key=True, index=True)
     region = Column(String, index=True)               # 자치구 이름
-    district_id = Column(Integer, index=True)         # ✅ 자치구 ID
-    date = Column(Date, index=True)                   # ✅ 측정 날짜 (YYYY-MM-DD)
+    district_id = Column(Integer, index=True)         # 자치구 ID
+    date = Column(Date, index=True)                   # 측정 날짜 (YYYY-MM-DD)
     temperature = Column(Float, nullable=True)        # 기온
     humidity = Column(Float, nullable=True)           # 습도
     wind = Column(Float, nullable=True)               # 풍속
@@ -25,13 +25,15 @@ class WeatherCalculated(Base):
     wind = Column(Float, nullable=True)                 # 해당 날짜의 풍속
     effective_humidity = Column(Float, nullable=True)   # 실효습도
     timestamp = Column(DateTime, default=datetime.utcnow)  # 저장 시점 또는 원본 시간
+    daily_weight = Column(Float)                        # 각 날짜별 가중치
+    dwi_score   = Column(Integer, nullable=True)        # 기상정보기반위험도
 
 class FireRiskScore(Base):
     __tablename__ = "fire_risk_score"
     id = Column(Integer, primary_key=True, index=True)
     region = Column(String, index=True)
-    score_type = Column(String)      # 예: 'tmp_score', 'risk_score'
-    score_value = Column(Float)
+    score_type = Column(String, index=True)      # 예: 'tmp_score', 'risk_score'
+    score_value = Column(Integer, nullable=True) # 등급을 정수형으로 저장
     timestamp = Column(DateTime, default=datetime.utcnow)
 
 class BaseIndicator(Base):
@@ -39,7 +41,7 @@ class BaseIndicator(Base):
     id = Column(Integer, primary_key=True, index=True)
     region = Column(String, index=True)
     indicator_name = Column(String)     # 예: '재정자주도', '노후건축물 비율' 등
-    indicator_value = Column(Float)
+    indicator_value = Column(Float)     # 각 indicator 값
     
 class ObjectDetection(Base):
     __tablename__ = "object_detection"

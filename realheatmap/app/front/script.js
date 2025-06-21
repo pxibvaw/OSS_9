@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (el) el.textContent = "0";
     });
 
-    const weatherIds = ["risk-score", "Tmean", "Rh", "Eh", "Wmean", "daily-weight", "model-type", "model-formula"];
+    const weatherIds = ["risk-score", "Tmean", "Rh", "Eh", "Wmean", "daily-weight", "model-type", "model-formula", "dwi-score"];
     weatherIds.forEach(id => {
       const el = document.getElementById(id);
       if (el) el.textContent = "-";
@@ -96,19 +96,25 @@ async function loadWeatherData(region_name) {
       fetch(`/calculate-risk?region=${encodeURIComponent(region_name)}&date=${today}`).then(res => res.json())
     ]);
 
-    const temp = Number(weather.temperature).toFixed(1);
-    const hum = Number(weather.humidity).toFixed(1);
-    const eh = Number(humidity.effective_humidity).toFixed(1);
-    const wind = Number(weather.wind).toFixed(1);
-    const score = risk.risk_score ?? '-';
+    const temp = Number(weather.temperature).toFixed(0);
+    const hum = weather.humidity;
+    const Eh = Number(humidity.effective_humidity).toFixed(0); // 소숫점 x
+    const wind = weather.wind;
+    const grade = risk.dwi_score ?? '--'
     const weight = risk.daily_weight ?? '-';
+
+    function fmt(val, digit = 1, unit = '') {
+      if (!isFinite(val)) return '-';
+      const str = Number(val).toFixed(digit).replace(/\.0$/, ''); // 불필요 0 제거
+      return unit ? `${str} ${unit}` : str;
+    }  
 
     document.getElementById('Tmean').textContent = `${temp} ℃`;
     document.getElementById('Rh').textContent = `${hum} %`;
-    document.getElementById('eh').textContent = `${eh} %`;
+    document.getElementById('Eh').textContent = `${Eh} %`;
     document.getElementById('Wmean').textContent = `${wind} m/s`;
     document.getElementById('daily-weight').textContent = weight;
-    document.getElementById('risk-score').textContent = `${score} 등급`;
+    document.getElementById('dwi-score').textContent = `${grade} 등급`;
 
     const month = parseInt(today.split('-')[1]);
     const model = (1 <= month && month <= 6) ? "봄철 모델" : "가을 모델";

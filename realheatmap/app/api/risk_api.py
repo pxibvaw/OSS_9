@@ -16,21 +16,24 @@ def calc_fire_risk(
     date: str = Query(None, description="YYYY-MM-DD 형식 날짜 (선택)")
 ):
     """
-    산불 위험지수를 계산하고 DB에 저장합니다.
+    기상정보별화재위험지수를 계산하고 DB에 저장합니다.
     날짜를 지정하지 않으면 오늘 날짜 기준으로 계산합니다.
     """
     db: Session = SessionLocal()
     try:
         target_date = datetime.now().date() if date is None else datetime.strptime(date, "%Y-%m-%d").date()
 
-        score = calculate_fire_risk_score(db, region, target_date)
-        if score is None:
+        result = calculate_fire_risk_score(db, region, target_date)
+        if result is None:
             return JSONResponse(status_code=404, content={"message": "위험지수 계산 실패 (데이터 없음)"})
+        
+        dwi_grade = result["dwi_score"] 
+        daily_weight = result["daily_weight"] 
 
         risk = FireRiskScore(
             region=region,
-            score_type="tmp_score",
-            score_value=score,
+            score_type="dwi",
+            score_value=dwi_grade,
             timestamp=datetime.now()
         )
         db.add(risk)
@@ -39,7 +42,8 @@ def calc_fire_risk(
         return {
             "region": region,
             "date": str(target_date),
-            "risk_score": score
+            "dwi_score": dwi_grade,
+            "daily_weight": daily_weight
         }
     finally:
         db.close()

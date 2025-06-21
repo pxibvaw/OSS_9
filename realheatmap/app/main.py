@@ -1,3 +1,8 @@
+#FireRiskMap - 서울시 화재위험 통합 관리 시스템
+# Copyright (C) 2025 최윤서 권도연 이연우
+# Licensed under the GNU Affero General Public License v3.0
+# https://www.gnu.org/licenses/agpl-3.0.html
+
 import threading # 백그라운드 스레드 실행
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles

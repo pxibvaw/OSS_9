@@ -4,7 +4,7 @@ from datetime import datetime
 from fastapi.responses import JSONResponse
 
 from realheatmap.app.database.database import SessionLocal
-from realheatmap.app.database.models import FireRiskScore
+from realheatmap.app.database.models import FireRiskScore, ObjectDetection
 from realheatmap.app.services.weather_calc import calculate_fire_risk_score
 from realheatmap.app.services.risk_calc import get_risk_scores_by_region
 
@@ -59,12 +59,30 @@ def base_risk(region: str = Query(..., description="자치구 이름")):
         scores = get_risk_scores_by_region(db, region)
         if not scores:
             return JSONResponse(status_code=404, content={"message": "기초 지표 데이터 부족"})
+        
+        #ObjectDetection 모델 불러오기
+        det = (
+            db.query(ObjectDetection)
+              .filter_by(region=region)
+              .order_by(ObjectDetection.timestamp.desc())
+              .first()
+        )        
+        
+        #탐지 객체수 저장
+        danger = {
+            "cigarette": det.cigarettes if det else 0,
+            "wires":     det.wires      if det else 0,
+            "smoke":     det.smoke      if det else 0,
+            "garbage":   det.garbage    if det else 0,
+        }
+
         return {
             "region": region,
-            "danger_score": scores['danger_score'],
-            "weak_score": scores['weak_score'],
-            "prevent_score": scores['prevent_score'],
-            "total_score": scores['total_score']
+            "danger_score":  scores["danger_score"],
+            "weak_score":    scores["weak_score"],
+            "prevent_score": scores["prevent_score"],
+            "total_score":   scores["total_score"],
+            "danger_elements": danger          
         }
     finally:
         db.close()

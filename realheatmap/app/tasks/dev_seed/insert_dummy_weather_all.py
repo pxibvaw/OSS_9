@@ -1,5 +1,5 @@
 #insert_dummy_weather_all.py
-from datetime import datetime
+from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 
 from realheatmap.app.database import SessionLocal
@@ -34,7 +34,9 @@ dummy_humidity_data = {
     "중랑구": [61, 60, 59, 58, 57],
 }
 
-dates = ["2025-06-20", "2025-06-16", "2025-06-17", "2025-06-18", "2025-06-19"]
+today  = datetime.now().date()          # 오늘(예: 2025-06-21)
+dates  = [(today - timedelta(days=i)).strftime("%Y-%m-%d")  # 'YYYY-MM-DD'
+          for i in range(1, 6)]          # 1 ~ 5 일 전 
 
 db: Session = SessionLocal()
 try:

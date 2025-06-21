@@ -1,3 +1,4 @@
+import time   
 from datetime import datetime
 from sqlalchemy.orm import Session
 from realheatmap.app.database.connection import SessionLocal
@@ -47,12 +48,21 @@ def migrate_to_base_indicator(db: Session, rows):
     db.commit()
     print(f"[{datetime.now().strftime('%H:%M')}] 위험지표 이관 완료 (중복 제거 포함)")
 
-if __name__ == "__main__":
-    db = SessionLocal()
-    try:
-        print(f"[{datetime.now()}] 위험지표 계산 시작")
+# 파일 테스트
+# if __name__ == "__main__":
+#     db = SessionLocal()
+#     try:
+#         print(f"[{datetime.now()}] 위험지표 계산 시작")
+#         rows = get_detection_totals(db)
+#         migrate_to_base_indicator(db, rows)
+#     finally:
+#         db.close()
+#         print("실행 완료")
+
+def start_migration_loop(interval: int = 30):
+    while True:
+        db = SessionLocal()
         rows = get_detection_totals(db)
         migrate_to_base_indicator(db, rows)
-    finally:
         db.close()
-        print("실행 완료")
+        time.sleep(interval)

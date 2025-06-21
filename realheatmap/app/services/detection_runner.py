@@ -93,6 +93,12 @@ def run_detection_loop():
         db.close()
         print("[✅ 종료] DB 세션 닫힘")
 
+# 파일 테스트
+# if __name__ == "__main__":
+#     run_detection_loop()
 
-if __name__ == "__main__":
-    run_detection_loop()
+# 인공지능 백그라운드 스레드
+def start_detection_loop(interval: int = 10):
+    while True:
+        run_detection_loop()          
+        time.sleep(interval)    

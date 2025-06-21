@@ -1,9 +1,12 @@
+import threading # 백그라운드 스레드 실행
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pathlib import Path
 from pydantic import BaseModel
 from realheatmap.app.services.weather_fetcher import fetch_and_save_all_weather
+from realheatmap.app.services.detection_runner import start_detection_loop
+from realheatmap.app.services.indicator_migrator import start_migration_loop
 
 class RegionRequest(BaseModel):
     region: str
@@ -25,10 +28,17 @@ FRONT_DIR = BASE_DIR / "front"
 # FastAPI 앱 생성
 app = FastAPI()
 
-#날씨 정보 저장
+#시작
 @app.on_event("startup")
 def startup_event():
+    # 날씨 정보 저장
     fetch_and_save_all_weather()
+
+    # 탐지 루프 백그라운드 실행
+    t1 = threading.Thread(target=start_detection_loop,  daemon=True)
+    t2 = threading.Thread(target=start_migration_loop,  daemon=True)
+    t1.start()
+    t2.start()
 
 # API 라우터 등록
 app.include_router(weather_router)
@@ -47,3 +57,7 @@ def serve_front():
 async def receive_region(data: RegionRequest):
     print(f"프론트로부터 받은 구 이름: {data.region}")
     return {"message": f"{data.region} 정상 수신"}
+
+@app.on_event("shutdown")
+def shutdown_event():
+    print("서버 종료 – 백그라운드 작업도 함께 종료됩니다.")

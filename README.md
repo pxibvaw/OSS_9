@@ -9,6 +9,7 @@
 - [프로젝트 설명](#프로젝트-설명)
 - [시연 영상](#시연-영상)
 - [기술 스택](#기술-스택)
+- [설치 및 실행방법](#설치-및-실행방법)
 - [라이선스](#라이선스)
 
 
@@ -23,7 +24,7 @@
 
 
 ## 개발 기간
-2025.05.13 ~ 2025.06.25
+2025.05.13 ~ 2025.06.22
 
 
 ## 프로젝트 설명
@@ -117,6 +118,23 @@
 
 
 ## 기술 스택
+
+
+## 설치 및 실행방법
+1. 저장소 클론
+git clone https://github.com/your-repo/fire-risk-map.git
+cd fire-risk-map
+
+2. 가상환경 설정
+python -m venv env
+source env/bin/activate  # Windows: .\env\Scripts\activate
+
+3. 패키지 설치
+pip install -r requirements.txt
+
+4. 실행
+python main.py
+
 
 
 ## 라이선스

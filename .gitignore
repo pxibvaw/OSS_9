@@ -1,0 +1,9 @@
+venv/
+checkenv/
+__pycache__/
+*.pyc
+fire_risk.db
+.env
+.DS_Store
+realheatmap/checkenv/
+realheatmap/checkenv/

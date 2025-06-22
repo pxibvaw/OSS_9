@@ -117,7 +117,7 @@ YOLOv5 모델을 활용해 CCTV 영상에서 위험 객체(전선, 쓰레기, �
 
 ## 실행 예제 및 시연 영상
 1. 원하는 위험지수 (시군구별 위험지수 vs 기상기반 위험지수 ) 클릭
-2. 해당 자치구 더블클릭
+2. 해당 자치구 **더블클릭**
 
 
 https://github.com/user-attachments/assets/4011c1d0-6400-4ef8-8fc7-30efd29fdaa7
@@ -164,7 +164,7 @@ uvicorn realheatmap.app.main:app --reload
 
 7. 터미널/프롬프트에 뜨는 링크 접속 http://127.0.0.1:8000
 
-8. 해당하는 자치구 더블클릭
+8. 해당하는 자치구 **더블클릭**
 <p float="left">
   <img src="https://github.com/user-attachments/assets/74bdb14f-a407-4e73-a12a-6b7135a1b24e" width="48%" />
   <img src="https://github.com/user-attachments/assets/26588dfe-5e6f-4862-994f-3f2877378369" width="48%" />

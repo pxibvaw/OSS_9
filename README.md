@@ -134,8 +134,8 @@ FireRiskMap은 서울시 행정구역 단위의 화재 위험요소를 통합적
 
 ## 설치 및 실행방법
 1. 저장소 클론
-git clone https://github.com/your-repo/fire-risk-map.git
-cd fire-risk-map
+git clone https://github.com/pxibvaw/OSS_9.git
+cd OSS_9
 
 2. 가상환경 설정
 python -m venv env
@@ -145,9 +145,14 @@ source env/bin/activate
 4. 패키지 설치
 pip install -r requirements.txt
 
-5. 실행
-python main.py
+5. 이미지 폴더 구성
+CCTV 영상은 개인정보 보호법으로 인해 직접 수집할 수 없기 때문에, 사전 수집된 이미지를 realheatmap/images 경로에 넣고 10초 간격으로 불러오는 방식으로 객체 탐지를 수행함.
+구글 드라이브에서 제공된 images 폴더를 다운로드한 뒤, 해당 경로에 위치시켜야 함.
 
+
+6. 실행
+python3 -m realheatmap.app.main.py         
+/# Windows: python -m realheatmap.app.main.py   
 
 
 ## 라이선스

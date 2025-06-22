@@ -133,6 +133,7 @@ FireRiskMap은 서울시 행정구역 단위의 화재 위험요소를 통합적
 
 
 ## 설치 및 실행방법
+(python 3.10 이상부터 실행가능)
 1. 저장소 클론
 git clone https://github.com/pxibvaw/OSS_9.git
 cd OSS_9
@@ -151,8 +152,10 @@ CCTV 영상은 개인정보 보호법으로 인해 직접 수집할 수 없기 �
 
 
 6. 실행
-python3 -m realheatmap.app.main.py         
-/# Windows: python -m realheatmap.app.main.py   
+python3 -m realheatmap.app.main         
+/# Windows: python -m realheatmap.app.main
+
+7. pt 안전로딩 가능한지 여부)
 
 
 ## 라이선스

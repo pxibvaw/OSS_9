@@ -138,7 +138,7 @@ FireRiskMap은 서울시 행정구역 단위의 화재 위험요소를 통합적
 git clone https://github.com/pxibvaw/OSS_9.git
 cd OSS_9
 
-2. 가상환경 설정
+3. 가상환경 설정
 python -m venv env
 source env/bin/activate
 /# Windows: .\env\Scripts\activate

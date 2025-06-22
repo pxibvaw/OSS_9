@@ -172,14 +172,14 @@ uvicorn realheatmap.app.main:app --reload
 
 
 ## 라이선스
-####라이선스
+#### 라이선스
 
 본 프로젝트는 **GNU Affero General Public License v3.0 (AGPL-3.0)**을 따른다.
 자세한 내용은 [LICENSE](./LICENSE) 파일을 참고.
 
 ⸻
 
-####데이터 및 AI 모델 출처
+#### 데이터 및 AI 모델 출처
 
 **고정 통계 데이터**
 

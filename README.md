@@ -146,16 +146,25 @@ source env/bin/activate
 4. 패키지 설치
 pip install -r requirements.txt
 
+해당버전은 윈도우 버전
+맥 버전은 requirements_mac.txt 로 설치
+
 5. 이미지 폴더 구성
 CCTV 영상은 개인정보 보호법으로 인해 직접 수집할 수 없기 때문에, 사전 수집된 이미지를 realheatmap/images 경로에 넣고 10초 간격으로 불러오는 방식으로 객체 탐지를 수행함.
 구글 드라이브에서 제공된 images 폴더를 다운로드한 뒤, 해당 경로에 위치시켜야 함.
 
 
 6. 실행
-python3 -m realheatmap.app.main         
-/# Windows: python -m realheatmap.app.main
+uvicorn realheatmap.app.main:app --reload
 
-7. pt 안전로딩 가능한지 여부)
+7. 터미널/프롬프트에 뜨는 링크 접속 http://127.0.0.1:8000
+
+8. 해당하는 자치구 더블클릭
+<img width="1053" alt="스크린샷 2025-06-22 오후 4 14 23" src="https://github.com/user-attachments/assets/74bdb14f-a407-4e73-a12a-6b7135a1b24e" />
+<img width="1057" alt="스크린샷 2025-06-22 오후 4 14 40" src="https://github.com/user-attachments/assets/26588dfe-5e6f-4862-994f-3f2877378369" />
+
+https://github.com/user-attachments/assets/5d0c9c20-ab94-4eb3-bc83-3d01f057150f
+
 
 
 ## 라이선스

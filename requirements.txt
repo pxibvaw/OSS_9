@@ -1,12 +1,84 @@
 # requirements.txt — project runtime dependencies
+absl-py==2.2.2
+alembic==1.16.2
+annotated-types==0.7.0
+anyio==4.9.0
+astunparse==1.6.3
+Bottleneck @ file:///C:/b/abs_816hr2khp1/croot/bottleneck_1731058648110/work
+cachetools==5.5.2
+certifi==2025.1.31
+charset-normalizer==3.4.1
+click==8.2.1
+colorama==0.4.6
+contourpy==1.3.2
+cycler==0.12.1
+fastapi==0.115.13
+filelock==3.18.0
+flatbuffers==25.2.10
+fonttools==4.58.4
+fsspec==2025.5.1
+gast==0.6.0
+google-auth==2.39.0
+google-auth-oauthlib==1.2.1
+google-pasta==0.2.0
+greenlet==3.2.3
+grpcio==1.71.0
+h11==0.16.0
+h5py==3.13.0
+idna==3.10
+Jinja2==3.1.6
+keras==2.15.0
+kiwisolver==1.4.8
+libclang==18.1.1
+Mako==1.3.10
+Markdown==3.8
+MarkupSafe==3.0.2
+matplotlib==3.10.3
+mkl-service==2.4.0
+mkl_fft @ file:///C:/Users/dev-admin/mkl/mkl_fft_1730823082242/work
+mkl_random @ file:///C:/Users/dev-admin/mkl/mkl_random_1730822522280/work
+ml-dtypes==0.2.0
+mpmath==1.3.0
+networkx==3.5
+numexpr @ file:///C:/b/abs_05o8p7bfml/croot/numexpr_1730215959182/work
+numpy==1.24.4
+oauthlib==3.2.2
+opencv-python==4.11.0.86
+opt_einsum==3.4.0
+packaging==25.0
+pandas @ file:///C:/b/abs_e18w9ay4we/croot/pandas_1732735115740/work/dist/pandas-2.2.3-cp311-cp311-win_amd64.whl#sha256=3a9ed5b5006a5fad640788cd8385485f98b18ac6ff9294cb25b18f3931fed352
+pillow==11.2.1
+protobuf==4.25.6
+psutil==7.0.0
+py-cpuinfo==9.0.0
+pyasn1==0.6.1
+pyasn1_modules==0.4.2
+pydantic==2.11.7
+pydantic_core==2.33.2
+pyparsing==3.2.3
+python-dateutil @ file:///C:/b/abs_3au_koqnbs/croot/python-dateutil_1716495777160/work
+pytz @ file:///C:/b/abs_6ap4tsz1ox/croot/pytz_1713974360290/work
+PyYAML==6.0.2
+requests==2.32.3
+requests-oauthlib==2.0.0
+rsa==4.9.1
+scipy==1.15.3
+six @ file:///C:/b/abs_149wuyuo1o/croot/six_1744271521515/work
+sniffio==1.3.1
 SQLAlchemy==2.0.41
-pandas==2.2.2
-progress==1.6
-fastapi==0.111.0
-pydantic==2.7.0
-uvicorn[standard]==0.30.0
-typing_extensions==4.14.0
-opencv-python>=4.9
-tqdm>=4.66
-requests==2.31.0
-ultralytics==8.1.36
+starlette==0.46.2
+sympy==1.14.0
+termcolor==3.0.1
+torch==2.7.1
+torchvision==0.22.1
+tqdm==4.67.1
+typing-inspection==0.4.1
+typing_extensions==4.13.2
+tzdata @ file:///croot/python-tzdata_1690578112552/work
+ultralytics==8.3.157
+ultralytics-thop==2.0.14
+urllib3==2.4.0
+uvicorn==0.34.3
+Werkzeug==3.1.3
+wrapt==1.14.1
+
